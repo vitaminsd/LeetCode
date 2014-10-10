@@ -16,26 +16,27 @@
 bool solve(int target, int x[], int n) {
 
 	int minN = 0;
-	vector<int> dp(target + 1, 0);
+	bool dp[target+1];
+	memset(dp, false, sizeof(dp));
 	// 在列表中的值为必胜
 	for (int t = 0; t < n; t++) {
 	  minN = min(minN, x[t]);
 		if (x[t] <= target)
-			dp[ x[t] ] = 1;
+			dp[ x[t] ] = true;
 	}
 
 	for (int i = 1; i <= target; i++) {
 		// 小于其中最小值为必胜
 		if (i < minN)
-			dp[i] = 1; 
+			dp[i] = true; 
 
 		if (dp[i] == 0) { // 如果当前的值为必输，则当期的值 + 列表中的任一值为必胜
 			for (int j = 0; j < n; j++) {
 				if ( i + x[j] <= target )
-					dp[ i + x[j] ] = 1;
+					dp[ i + x[j] ] = true;
 			}
 		}
 	}
 
-	return dp[target] == 1;
+	return dp[target];
 }
